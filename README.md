@@ -1,4 +1,3 @@
-
 # Android GUI Bot
 
 Control android emulator via normal screenshots and mouse/keyboard(PyAutoGui), or ADB shell commands. Basic OCR via PyTesseract.
