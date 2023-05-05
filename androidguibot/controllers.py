@@ -26,7 +26,16 @@ class ADBAndroidController(AndroidController):
         else:
             self.adb_conn = AdbClient(adb_ip, port=adb_port)
             self.device = self.adb_conn.devices()[device_index]
-
+    def __getattr__(self, item):
+        """
+        Forward all function calls pyautogui
+        :param item: Attribute name
+        :return: Attribute
+        """
+        if hasattr(pyautogui, item):
+            return pyautogui.__getattribute__(item)
+        else:
+            return self.__getattr_orig__(item)
     def type(self, text):
         self.execute("input text {}".format(text))
 
@@ -48,7 +57,10 @@ class ADBAndroidController(AndroidController):
         return self.execute(
             "input tap {} {}".format(randint(x, max_x), randint(y, max_y))
         )
-
+    def click(self, x, y):
+        return self.execute(
+            "input tap {} {}".format(x, y)
+        )
     def drag(self, top_left, bottom_right, ms=500):
         x1, y1 = top_left
         x2, y2 = bottom_right
